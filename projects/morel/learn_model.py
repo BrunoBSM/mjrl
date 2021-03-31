@@ -151,7 +151,7 @@ def refresh_dataset(reader):
     r = batch["rewards"]
     pbar.update(r.size)  # update bar
 
-    while r.size < 2e6:
+    while r.size < 1e6:
         batch = reader.next().data
 
         # New shape should be (size, action_shape)
@@ -206,10 +206,10 @@ for training_round in range(training_rounds):
     print("\n")
     print("Staring round {} of {}".format(training_round + 1, training_rounds))
     # print("{} / {} epochs")
-    s, a, sp, r = refresh_dataset(reader)
-    print("\n")
 
     for i, model in enumerate(models):
+        s, a, sp, r = refresh_dataset(reader)
+        print("\n")
         print("\nDynamics model {}\n".format(i))
 
         dynamics_loss = model.fit_dynamics(s, a, sp, **job_data)
@@ -239,6 +239,6 @@ for training_round in range(training_rounds):
             training_round,
         )
 
-    del s, a, sp, r  # just to release the memory in case they are too big
+        del s, a, sp, r  # just to release the memory in case they are too big
 
 pickle.dump(models, open(output_model, "wb"))
