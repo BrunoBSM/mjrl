@@ -503,7 +503,10 @@ for outer_iter in range(job_data["num_iter"]):
                 _action = agent.get_action(episode["obs"][i])
                 action.append(_action[1]["mean"])
                 _action_prob = np.exp(
-                    agent.policy.log_likelihood(episode["obs"][i], _action[1]["mean"])
+                    agent.policy.log_likelihood(
+                        episode["obs"][i],
+                        _action[1]["mean"].reshape((1, _action[1]["mean"].shape[0])),
+                    )
                 )
                 selected_action_prob.append(_action_prob[_action])
                 all_actions_prob.append(_action_prob)
