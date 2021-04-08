@@ -101,8 +101,8 @@ if "act_repeat" not in job_data.keys():
 if "model_file" not in job_data.keys():
     job_data["model_file"] = None
 
-assert job_data["start_state"] in ["init", "buffer"]
-assert "data_file" in job_data.keys()
+assert job_data["start_state"] in ["init", "buffer", "any"]
+# assert "data_file" in job_data.keys()
 with open(EXP_FILE, "w") as f:
     json.dump(job_data, f, indent=4)
 del job_data["seed"]

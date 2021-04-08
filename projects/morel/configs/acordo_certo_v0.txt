@@ -40,7 +40,7 @@
 'gamma'         :   0.999,
 'gae_lambda'    :   0.97,
 'update_paths'  :   50,
-'start_state'   :   'init',
+'start_state'   :   'any',
 'horizon'       :   500,
 'npg_hp'        :   dict(FIM_invert_args={'iters': 25, 'damping': 1e-3}),
 
