@@ -150,7 +150,8 @@ if "reward_file" in job_data.keys():
     sys.path.append(dirpath)
     exec("from " + filename + " import *")
 if "reward_function" not in globals():
-    reward_function = getattr(e.env.env, "compute_path_rewards", None)
+    # reward_function = getattr(e.env.env, "compute_path_rewards", None)
+    reward_function = None
     job_data["learn_reward"] = False if reward_function is not None else True
 if "termination_function" not in globals():
     termination_function = getattr(e.env.env, "truncate_paths", None)
