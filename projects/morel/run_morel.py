@@ -35,6 +35,8 @@ from mjrl.algos.mbrl.sampling import sample_paths, evaluate_policy
 
 from is_estimator import ImportanceSamplingEstimator
 from custom_estimators import CustomImportanceSamplingEstimator
+from custom_estimators import get_registry_reward, get_deal_reward, get_ltv_reward
+
 import utils
 from sklearn.metrics import confusion_matrix
 from datetime import datetime
