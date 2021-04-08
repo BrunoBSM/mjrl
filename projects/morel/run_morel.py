@@ -280,7 +280,7 @@ def refresh_dataset(reader):
 
         pbar.update(batch["rewards"].size)  # update bar
     pbar.close()
-    time.sleep(0.2)
+    timer.sleep(0.2)
 
     return s, a, sp, r
 
