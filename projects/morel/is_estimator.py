@@ -7,6 +7,14 @@ class ImportanceSamplingEstimator:
         rewards = batch["rewards"]
         old_prob = batch["action_prob"]
         new_prob = actions_prob
+        print(len(rewards))
+        print(rewards.shape)
+        print(len(old_prob))
+        print(old_prob.shape)
+        print(len(new_prob))
+        print(new_prob.shape)
+        print(batch.count)
+        print("--------------")
 
         # calculate importance ratios
         p = []
