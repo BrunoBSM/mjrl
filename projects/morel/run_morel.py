@@ -386,6 +386,40 @@ if "bc_init" in job_data.keys():
 # ===============================================================================
 # Policy Optimization Loop
 # ===============================================================================
+
+
+# --------------------------- Setup the evaluation process------------------------
+is_estimator = ImportanceSamplingEstimator()
+custom_estimator = CustomImportanceSamplingEstimator()
+
+test_dataset_path = job_data["test_data"]
+test_dataset = [
+    os.path.join(test_dataset_path, f)
+    for f in os.listdir(test_dataset_path)
+    if os.path.isfile(os.path.join(test_dataset_path, f))
+]
+test_dataset = sorted(test_dataset)
+
+rewards = []
+for n_eps in range(len(test_dataset)):
+    eval_reader = JsonReader(test_dataset[n_eps])
+
+    with open(test_dataset[n_eps], "r") as f:
+        sb = f.readlines()
+
+    for _ in range(len(sb)):
+        n = eval_reader.next()
+        batch = eval_reader.next()
+        for episode in batch.split_by_episode():
+            for r in episode["rewards"]:
+                rewards.append(r)
+
+rewards_shift = (
+    (round(min(rewards), 10) * -1) + 1e-6 if round(min(rewards), 10) <= 0 else 0
+)
+# ----------------------------------------------------------------------------------
+
+
 from tensorboardX import SummaryWriter
 
 writer = SummaryWriter(OUT_DIR)
@@ -439,34 +473,6 @@ for outer_iter in range(job_data["num_iter"]):
     # --------------------------------------------------------------------------------
     # evaluate true policy performance
     # --------------------------------------------------------------------------------
-    is_estimator = ImportanceSamplingEstimator()
-    custom_estimator = CustomImportanceSamplingEstimator()
-
-    test_dataset_path = job_data["test_data"]
-    test_dataset = [
-        os.path.join(test_dataset_path, f)
-        for f in os.listdir(test_dataset_path)
-        if os.path.isfile(os.path.join(test_dataset_path, f))
-    ]
-    test_dataset = sorted(test_dataset)
-
-    rewards = []
-    for n_eps in range(len(test_dataset)):
-        eval_reader = JsonReader(test_dataset[n_eps])
-
-        with open(test_dataset[n_eps], "r") as f:
-            sb = f.readlines()
-
-        for _ in range(len(sb)):
-            n = eval_reader.next()
-            batch = eval_reader.next()
-            for episode in batch.split_by_episode():
-                for r in episode["rewards"]:
-                    rewards.append(r)
-
-    rewards_shift = (
-        (round(min(rewards), 10) * -1) + 1e-6 if round(min(rewards), 10) <= 0 else 0
-    )
 
     actions = []
     true_actions = []
@@ -501,19 +507,27 @@ for outer_iter in range(job_data["num_iter"]):
         for episode in batch.split_by_episode():
             true_actions.extend(episode["actions"])
 
-            action, selected_action_prob, all_actions_prob = [], [], []
-            for i in range(len(episode["eps_id"])):
-                _action = agent.get_action(episode["obs"][i])
-                action.append(_action[1]["mean"])
-                _action_prob = np.exp(
-                    agent.policy.log_likelihood(
-                        torch.from_numpy(np.asarray([episode["obs"][i]])),
-                        torch.from_numpy(np.asarray([episode["actions"][i]])),
-                    ),
-                )
+            # action, selected_action_prob, all_actions_prob = [], [], []
+            # for i in range(len(episode["eps_id"])):
+            #     _action = agent.get_action(episode["obs"][i])
+            #     action.append(_action[1]["mean"])
+            #     _action_prob = np.exp(
+            #         agent.policy.log_likelihood(
+            #             torch.from_numpy(np.asarray([episode["obs"][i]])),
+            #             torch.from_numpy(np.asarray([episode["actions"][i]])),
+            #         ),
+            #     )
 
-                # selected_action_prob.append(_action_prob)
-                all_actions_prob.append(_action_prob)
+            # # selected_action_prob.append(_action_prob)
+            # all_actions_prob.append(_action_prob)
+
+            action = agent.get_action(episode["obs"])
+            all_actions_prob = np.exp(
+                agent.policy.log_likelihood(
+                    torch.from_numpy(np.asarray(episode["obs"])),
+                    torch.from_numpy(np.asarray(episode["actions"])),
+                ),
+            )
 
             is_estimation = is_estimator.estimate(
                 episode, all_actions_prob, rewards_shift
