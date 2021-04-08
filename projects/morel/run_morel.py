@@ -508,7 +508,8 @@ for outer_iter in range(job_data["num_iter"]):
                         _action[1]["mean"].reshape((1, _action[1]["mean"].shape[0])),
                     )
                 )
-                selected_action_prob.append(_action_prob[_action])
+
+                # selected_action_prob.append(_action_prob)
                 all_actions_prob.append(_action_prob)
 
             is_estimation = is_estimator.estimate(
