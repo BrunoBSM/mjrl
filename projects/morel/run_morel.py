@@ -526,6 +526,7 @@ for outer_iter in range(job_data["num_iter"]):
             # print(episode["actions"].shape)
             # print(episode["actions"].reshape((-1, 1)).shape)
             # print("------")
+            actions.extend(action)
             all_actions_prob = np.exp(
                 agent.policy.log_likelihood(
                     torch.from_numpy(np.asarray(episode["obs"])),
