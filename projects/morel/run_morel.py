@@ -493,7 +493,7 @@ for outer_iter in range(job_data["num_iter"]):
         "ltv/is/V_step_IS": [],
         "ltv/is/V_gain_est": [],
     }
-    for n_eps in range(len(test_dataset)):
+    for n_eps in tqdm(range(len(test_dataset))):
         eval_reader = JsonReader(test_dataset[n_eps])
         batch = eval_reader.next()
 
