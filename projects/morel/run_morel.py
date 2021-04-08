@@ -267,7 +267,7 @@ def refresh_dataset(reader):
     r = batch["rewards"]
     pbar.update(r.size)  # update bar
 
-    while r.size < 2e5:
+    while r.size < 1e6:
         batch = reader.next().data
 
         # New shape should be (size, action_shape)
@@ -473,7 +473,7 @@ for outer_iter in range(job_data["num_iter"]):
     # --------------------------------------------------------------------------------
     # evaluate true policy performance
     # --------------------------------------------------------------------------------
-
+    print("Evaluating policy")
     actions = []
     true_actions = []
 
