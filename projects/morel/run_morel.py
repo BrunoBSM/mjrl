@@ -135,7 +135,7 @@ if ENV_NAME.split("_")[0] == "dmc":
     e = dmc2gym.make(domain_name=domain, task_name=task, seed=SEED)
     e = GymEnv(e, act_repeat=job_data["act_repeat"])
 else:
-    e = GymEnv(ENV_NAME, act_repeat=job_data["act_repeat"])
+    e = GymEnv(env, act_repeat=job_data["act_repeat"])
     e.set_seed(SEED)
 
 # check for reward and termination functions
