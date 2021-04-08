@@ -615,8 +615,10 @@ for outer_iter in range(job_data["num_iter"]):
     custom_ltv_mean = pd.DataFrame.from_dict(custom_ltv).mean(axis=0)
 
     # Accuracy, Precision, Recall, F1
-    true_actions = np.array(true_actions)
-    pred_actions = np.array(actions)
+    true_actions = np.array(true_actions).reshape((-1, 1))
+    pred_actions = np.array(actions).reshape((-1, 1))
+    print(true_actions.shape)
+    print(pred_actions.shape)
 
     accuracy = (pred_actions == true_actions).sum() / len(true_actions)
     true_positives = ((pred_actions == 1) & (true_actions == 1)).sum()
