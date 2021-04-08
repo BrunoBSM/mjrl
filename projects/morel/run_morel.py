@@ -63,11 +63,11 @@ parser.add_argument(
 args = parser.parse_args()
 OUT_DIR = os.path.join(DEFAULT_FOLDER, datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
 if not os.path.exists(OUT_DIR):
-    os.mkdir(OUT_DIR)
+    os.makedirs(OUT_DIR)
 if not os.path.exists(OUT_DIR + "/iterations"):
-    os.mkdir(OUT_DIR + "/iterations")
+    os.makedirs(OUT_DIR + "/iterations")
 if not os.path.exists(OUT_DIR + "/logs"):
-    os.mkdir(OUT_DIR + "/logs")
+    os.makedirs(OUT_DIR + "/logs")
 with open(args.config, "r") as f:
     job_data = eval(f.read())
 if args.include:
