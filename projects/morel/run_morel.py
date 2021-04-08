@@ -506,7 +506,8 @@ for outer_iter in range(job_data["num_iter"]):
                 action.append(_action[1]["mean"])
                 _action_prob = np.exp(
                     agent.policy.log_likelihood(
-                        episode["obs"][i], episode["actions"][i]
+                        torch.from_numpy(episode["obs"][i]),
+                        torch.from_numpy(episode["actions"][i]),
                     ),
                 )
 
