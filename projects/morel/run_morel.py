@@ -655,74 +655,74 @@ for outer_iter in range(job_data["num_iter"]):
     )
     writer.add_scalar(
         tag="Evaluation/is/V_step_IS",
-        simple_value=est_mean["is/V_step_IS"],
+        scalar_value=est_mean["is/V_step_IS"],
         global_step=outer_iter,
     )
     writer.add_scalar(
         tag="Evaluation/is/V_gain_est",
-        simple_value=est_mean["is/V_gain_est"],
+        scalar_value=est_mean["is/V_gain_est"],
         global_step=outer_iter,
     )
     writer.add_scalar(
         tag="Evaluation/actions_prob",
-        simple_value=float(actions.count(1)) / len(actions),
+        scalar_value=float(actions.count(1)) / len(actions),
         global_step=outer_iter,
     )
     writer.add_scalar(
         tag="Evaluation/register/is/V_prev",
-        simple_value=custom_register_mean["register/is/V_prev"],
+        scalar_value=custom_register_mean["register/is/V_prev"],
         global_step=outer_iter,
     )
     writer.add_scalar(
         tag="Evaluation/register/is/V_step_IS",
-        simple_value=custom_register_mean["register/is/V_step_IS"],
+        scalar_value=custom_register_mean["register/is/V_step_IS"],
         global_step=outer_iter,
     )
     writer.add_scalar(
         tag="Evaluation/register/is/V_gain_est",
-        simple_value=custom_register_mean["register/is/V_gain_est"],
+        scalar_value=custom_register_mean["register/is/V_gain_est"],
         global_step=outer_iter,
     )
     writer.add_scalar(
         tag="Evaluation/deal/is/V_prev",
-        simple_value=custom_deal_mean["deal/is/V_prev"],
+        scalar_value=custom_deal_mean["deal/is/V_prev"],
         global_step=outer_iter,
     )
     writer.add_scalar(
         tag="Evaluation/deal/is/V_step_IS",
-        simple_value=custom_deal_mean["deal/is/V_step_IS"],
+        scalar_value=custom_deal_mean["deal/is/V_step_IS"],
         global_step=outer_iter,
     )
     writer.add_scalar(
         tag="Evaluation/deal/is/V_gain_est",
-        simple_value=custom_deal_mean["deal/is/V_gain_est"],
+        scalar_value=custom_deal_mean["deal/is/V_gain_est"],
         global_step=outer_iter,
     )
     writer.add_scalar(
         tag="Evaluation/ltv/is/V_prev",
-        simple_value=custom_ltv_mean["ltv/is/V_prev"],
+        scalar_value=custom_ltv_mean["ltv/is/V_prev"],
         global_step=outer_iter,
     )
     writer.add_scalar(
         tag="Evaluation/ltv/is/V_step_IS",
-        simple_value=custom_ltv_mean["ltv/is/V_step_IS"],
+        scalar_value=custom_ltv_mean["ltv/is/V_step_IS"],
         global_step=outer_iter,
     )
     writer.add_scalar(
         tag="Evaluation/ltv/is/V_gain_est",
-        simple_value=custom_ltv_mean["ltv/is/V_gain_est"],
+        scalar_value=custom_ltv_mean["ltv/is/V_gain_est"],
         global_step=outer_iter,
     )
     writer.add_scalar(
-        tag="Evaluation/accuracy", simple_value=accuracy, global_step=outer_iter
+        tag="Evaluation/accuracy", scalar_value=accuracy, global_step=outer_iter
     )
     writer.add_scalar(
-        tag="Evaluation/precision", simple_value=precision, global_step=outer_iter
+        tag="Evaluation/precision", scalar_value=precision, global_step=outer_iter
     )
     writer.add_scalar(
-        tag="Evaluation/recall", simple_value=recall, global_step=outer_iter
+        tag="Evaluation/recall", scalar_value=recall, global_step=outer_iter
     )
-    writer.add_scalar(tag="Evaluation/f1", simple_value=f1, global_step=outer_iter)
+    writer.add_scalar(tag="Evaluation/f1", scalar_value=f1, global_step=outer_iter)
 
     # --------------------------------------------------------------------------------
 
