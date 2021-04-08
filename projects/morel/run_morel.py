@@ -507,27 +507,20 @@ for outer_iter in range(job_data["num_iter"]):
         for episode in batch.split_by_episode():
             true_actions.extend(episode["actions"])
 
-            # action, selected_action_prob, all_actions_prob = [], [], []
-            # for i in range(len(episode["eps_id"])):
-            #     _action = agent.get_action(episode["obs"][i])
-            #     action.append(_action[1]["mean"])
-            #     _action_prob = np.exp(
-            #         agent.policy.log_likelihood(
-            #             torch.from_numpy(np.asarray([episode["obs"][i]])),
-            #             torch.from_numpy(np.asarray([episode["actions"][i]])),
-            #         ),
-            #     )
+            action, selected_action_prob, all_actions_prob = [], [], []
+            for i in range(len(episode["eps_id"])):
+                _action = agent.get_action(episode["obs"][i])
+                print(episode["obs"][i].shape)
+                action.append(_action[1]["mean"])
+                _action_prob = np.exp(
+                    agent.policy.log_likelihood(
+                        torch.from_numpy(np.asarray([episode["obs"][i]])),
+                        torch.from_numpy(np.asarray([episode["actions"][i]])),
+                    ),
+                )
 
-            # # selected_action_prob.append(_action_prob)
-            # all_actions_prob.append(_action_prob)
-
-            action = agent.get_action(episode["obs"])
-            all_actions_prob = np.exp(
-                agent.policy.log_likelihood(
-                    torch.from_numpy(np.asarray(episode["obs"])),
-                    torch.from_numpy(np.asarray(episode["actions"])),
-                ),
-            )
+                # selected_action_prob.append(_action_prob)
+                all_actions_prob.append(_action_prob)
 
             is_estimation = is_estimator.estimate(
                 episode, all_actions_prob, rewards_shift
