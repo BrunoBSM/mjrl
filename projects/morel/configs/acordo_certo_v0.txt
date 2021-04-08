@@ -12,7 +12,7 @@
 'device'        :   'cuda',
 'learn_reward'  :   True,
 'data_folder'   :   'data/processed/v10_dataset/validation',
-'test_data'     :   'data/processed/v10_dataset/10k_uniform_dataset_users'
+'test_data'     :   'data/processed/v10_dataset/10k_uniform_dataset_users',
 'model_file'    :   'dynamics/2021-03-31_14-02-33/ac_model_v0.pickle',  # specify path to model file here if required
 'bc_init'       :   True,
 'pessimism_coef':   0.5,
