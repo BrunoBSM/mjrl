@@ -629,7 +629,7 @@ for outer_iter in range(job_data["num_iter"]):
     f1 = (2 * precision * recall) / (precision + recall)
 
     # Confusion Matrix
-    cm = confusion_matrix(true_actions, pred_actions)
+    cm = confusion_matrix(true_actions, pred_actions.round())
 
     figure = utils.plot_confusion_matrix(cm, class_names=["Don't activate", "Activate"])
     # buf = io.BytesIO()
