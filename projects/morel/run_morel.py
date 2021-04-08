@@ -521,7 +521,7 @@ for outer_iter in range(job_data["num_iter"]):
             #     # selected_action_prob.append(_action_prob)
             #     all_actions_prob.append(_action_prob)
 
-            action = agent.policy.forward(episode["obs"])
+            action = agent.policy.forward(episode["obs"]).round()
             # print(episode["obs"].shape)
             # print(episode["actions"].shape)
             # print(episode["actions"].reshape((-1, 1)).shape)
@@ -616,9 +616,9 @@ for outer_iter in range(job_data["num_iter"]):
     custom_ltv_mean = pd.DataFrame.from_dict(custom_ltv).mean(axis=0)
 
     # Accuracy, Precision, Recall, F1
-    true_actions = np.array(true_actions)
-    pred_actions = np.array(actions)
-    # print(true_actions.shape)
+    true_actions = np.array(true_actions, dtype=np.float)
+    pred_actions = np.array(actions, dtype=np.float)
+    # print(actions)
     # print(pred_actions.shape)
 
     accuracy = (pred_actions == true_actions).sum() / len(true_actions)
@@ -631,7 +631,7 @@ for outer_iter in range(job_data["num_iter"]):
     # Confusion Matrix
     print(type(true_actions))
     print(type(pred_actions))
-    cm = confusion_matrix(true_actions, pred_actions.round())
+    cm = confusion_matrix(true_actions.round(), pred_actions.round())
 
     figure = utils.plot_confusion_matrix(cm, class_names=["Don't activate", "Activate"])
     # buf = io.BytesIO()
