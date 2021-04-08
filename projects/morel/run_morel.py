@@ -154,7 +154,7 @@ if "reward_function" not in globals():
     reward_function = None
     job_data["learn_reward"] = False if reward_function is not None else True
 if "termination_function" not in globals():
-    termination_function = getattr(e.env.env, "truncate_paths", None)
+    termination_function = None
 if "obs_mask" in globals():
     e.obs_mask = obs_mask
 
