@@ -46,7 +46,7 @@ class CustomImportanceSamplingEstimator:
                 pt_prev = 1.0
             else:
                 pt_prev = p[t - 1]
-            p.append(pt_prev * new_prob[t][batch["actions"][t]] / old_prob[t])
+            p.append(pt_prev * new_prob[t] / old_prob[t])
 
         if (np.asarray(rewards) == np.zeros(np.asarray(rewards).shape)).all():
             estimation = None

@@ -266,7 +266,7 @@ def refresh_dataset(reader):
     r = batch["rewards"]
     pbar.update(r.size)  # update bar
 
-    while r.size < 1e6:
+    while r.size < 2e5:
         batch = reader.next().data
 
         # New shape should be (size, action_shape)
@@ -506,9 +506,8 @@ for outer_iter in range(job_data["num_iter"]):
                 action.append(_action[1]["mean"])
                 _action_prob = np.exp(
                     agent.policy.log_likelihood(
-                        episode["obs"][i],
-                        _action[1]["mean"].reshape((1, _action[1]["mean"].shape[0])),
-                    )
+                        episode["obs"][i], episode["actions"][i]
+                    ),
                 )
 
                 # selected_action_prob.append(_action_prob)

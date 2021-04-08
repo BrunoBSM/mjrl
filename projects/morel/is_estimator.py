@@ -7,14 +7,14 @@ class ImportanceSamplingEstimator:
         rewards = batch["rewards"]
         old_prob = batch["action_prob"]
         new_prob = actions_prob
-        print(len(rewards))
-        print(rewards.shape)
-        print(len(old_prob))
-        print(old_prob.shape)
-        print(len(new_prob))
-        print(new_prob.shape)
-        print(batch.count)
-        print("--------------")
+        # print(len(rewards))
+        # print(rewards.shape)
+        # print(len(old_prob))
+        # print(old_prob.shape)
+        # print(len(new_prob))
+        # print(new_prob.shape)
+        # print(batch.count)
+        # print("--------------")
 
         # calculate importance ratios
         p = []
@@ -24,7 +24,7 @@ class ImportanceSamplingEstimator:
             else:
                 pt_prev = p[t - 1]
 
-            p.append(pt_prev * new_prob[t][batch["actions"][t]] / old_prob[t])
+            p.append(pt_prev * new_prob[t] / old_prob[t])
 
         # calculate stepwise IS estimate
         V_prev, V_step_IS = 0.0, 0.0
