@@ -267,7 +267,7 @@ def refresh_dataset(reader):
     r = batch["rewards"]
     pbar.update(r.size)  # update bar
 
-    while r.size < 1e6:
+    while r.size < 2e5:
         batch = reader.next().data
 
         # New shape should be (size, action_shape)
@@ -521,7 +521,9 @@ for outer_iter in range(job_data["num_iter"]):
             #     # selected_action_prob.append(_action_prob)
             #     all_actions_prob.append(_action_prob)
 
-            action = agent.policy.forward(episode["obs"]).round()
+            action = agent.policy.forward(episode["obs"])
+            print(action)
+            print(true_actions)
             # print(episode["obs"].shape)
             # print(episode["actions"].shape)
             # print(episode["actions"].reshape((-1, 1)).shape)
