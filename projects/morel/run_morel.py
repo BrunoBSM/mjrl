@@ -199,6 +199,8 @@ else:
         min_log_std=job_data["min_log_std"],
     )
 
+policy.set_transformations(out_shift=1.0, out_scale=0.5)
+
 baseline = MLPBaseline(
     e.spec,
     reg_coef=1e-3,
