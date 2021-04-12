@@ -33,7 +33,7 @@
 
 # NPG params
 
-'policy_size'   :   (64, 64),
+'policy_size'   :   (64, 64, 64),
 'step_size'     :   0.02,
 'init_log_std'  :   -0.25,
 'min_log_std'   :   -2.0,

@@ -524,8 +524,8 @@ for outer_iter in range(job_data["num_iter"]):
             #     all_actions_prob.append(_action_prob)
 
             action = agent.policy.forward(episode["obs"])
-            print(action)
-            print(true_actions)
+            # print(action)
+            # print(true_actions)
             # print(episode["obs"].shape)
             # print(episode["actions"].shape)
             # print(episode["actions"].reshape((-1, 1)).shape)
