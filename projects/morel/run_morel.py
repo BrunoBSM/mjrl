@@ -259,7 +259,7 @@ def refresh_dataset(reader):
 
     # Reshaping arrays that come with one dimension so they have (size, 1)
     # New shape should be (size, action_shape)
-    ac = np.array((len(batch["actions"]), 2))
+    ac = np.zeros((len(batch["actions"]), 2))
     for i in range(len(batch["actions"])):
         ac[i][batch["actions"][i]] = 1
     batch["actions"] = ac
@@ -277,7 +277,7 @@ def refresh_dataset(reader):
         batch = reader.next().data
 
         # New shape should be (size, action_shape)]
-        ac = np.array((len(batch["actions"]), 2))
+        ac = np.zeros((len(batch["actions"]), 2))
         for i in range(len(batch["actions"])):
             ac[i][batch["actions"][i]] = 1
         batch["actions"] = ac
