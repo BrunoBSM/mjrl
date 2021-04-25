@@ -40,7 +40,9 @@ class BC:
         self.loss_type = loss_type
         self.save_logs = save_logs
         self.device = self.policy.device
-        assert self.loss_type == "MSE" or self.loss_type == "MLE"
+        assert (
+            self.loss_type == "MSE" or self.loss_type == "MLE" or self.loss_type == "CE"
+        )
 
         if set_transforms:
             in_shift, in_scale, out_shift, out_scale = self.compute_transformations()
@@ -57,6 +59,8 @@ class BC:
         # Loss criterion if required
         if loss_type == "MSE":
             self.loss_criterion = torch.nn.MSELoss()
+        if loss_type == "CE":
+            self.loss_criterion = torch.nn.CrossEntropyLoss()
 
         # make logger
         if self.save_logs:
@@ -92,6 +96,8 @@ class BC:
             return self.mle_loss(data, idx)
         elif self.loss_type == "MSE":
             return self.mse_loss(data, idx)
+        elif self.loss_type == "CE":
+            return self.ce_loss(data, idx)
         else:
             print("Please use valid loss type")
             return None
@@ -117,6 +123,18 @@ class BC:
         act_expert = tensorize(act_expert, device=self.policy.device)
         act_pi = self.policy.forward(obs)
         return self.loss_criterion(act_pi, act_expert.detach())
+
+    def ce_loss(self, data, idx=None):
+        idx = range(data["observations"].shape[0]) if idx is None else idx
+        if type(data["observations"]) is torch.Tensor:
+            idx = torch.LongTensor(idx)
+        obs = data["observations"][idx]
+        act_expert = data["expert_actions"][idx]
+        act_expert = np.where(act_expert == 1)[1]
+        act_expert = tensorize(act_expert, device=self.policy.device)
+        act_probs = self.policy.forward(obs)
+
+        return self.loss_criterion(act_probs, act_expert.detach())
 
     def fit(self, data, suppress_fit_tqdm=False, **kwargs):
         # data is a dict

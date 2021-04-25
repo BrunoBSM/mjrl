@@ -102,7 +102,7 @@ class MLP(torch.nn.Module):
             out = self.fc_layers[i](out)
             out = self.nonlinearity(out)
         out = self.fc_layers[-1](out) * self.out_scale + self.out_shift
-        return out.round()
+        return out
 
     # Utility functions
     # ============================================

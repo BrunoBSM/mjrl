@@ -141,7 +141,11 @@ def refresh_dataset(reader):
 
     # Reshaping arrays that come with one dimension so they have (size, 1)
     # New shape should be (size, action_shape)
-    batch["actions"] = batch["actions"].reshape((batch["actions"].size, 1))
+    ac = np.array((len(batch["actions"]), 2))
+        for i in range(len(batch["actions"])):
+            ac[i][batch["actions"][i]] = 1
+        batch["actions"] = ac
+    
     batch["rewards"] = batch["rewards"].reshape((batch["rewards"].size, 1))
     batch["dones"] = batch["dones"].reshape((batch["dones"].size, 1))
 
@@ -154,8 +158,12 @@ def refresh_dataset(reader):
     while r.size < 1e6:
         batch = reader.next().data
 
-        # New shape should be (size, action_shape)
-        batch["actions"] = batch["actions"].reshape((batch["actions"].size, 1))
+        # New shape should be (size, action_shape)]
+        ac = np.array((len(batch["actions"]), 2))
+        for i in range(len(batch["actions"])):
+            ac[i][batch["actions"][i]] = 1
+        batch["actions"] = ac
+
         batch["rewards"] = batch["rewards"].reshape((batch["rewards"].size, 1))
         batch["dones"] = batch["dones"].reshape((batch["dones"].size, 1))
 
@@ -167,7 +175,7 @@ def refresh_dataset(reader):
 
         pbar.update(batch["rewards"].size)  # update bar
     pbar.close()
-    time.sleep(0.2)
+    timer.sleep(0.2)
 
     return s, a, sp, r
 
