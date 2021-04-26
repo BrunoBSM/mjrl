@@ -545,11 +545,13 @@ for outer_iter in range(job_data["num_iter"]):
                 ac[i][episode["actions"][i]] = 1
             # episode["actions"] = ac
 
+            print(ac)
+            log_p = agent.policy.log_likelihood(
+                torch.from_numpy(np.asarray(episode["obs"])), torch.from_numpy(ac)
+            )
+            print(log_p)
             all_actions_prob = np.exp(
-                agent.policy.log_likelihood(
-                    torch.from_numpy(np.asarray(episode["obs"])),
-                    torch.from_numpy(ac),
-                ).argmax(axis=1),
+                log_p,
             )
 
             is_estimation = is_estimator.estimate(
