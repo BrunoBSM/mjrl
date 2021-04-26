@@ -531,7 +531,7 @@ for outer_iter in range(job_data["num_iter"]):
             #     # selected_action_prob.append(_action_prob)
             #     all_actions_prob.append(_action_prob)
 
-            action = agent.policy.forward(episode["obs"])
+            action = agent.policy.forward(episode["obs"]).argmax(axis=1)
             # print(action)
             # print(true_actions)
             # print(episode["obs"].shape)
@@ -539,11 +539,17 @@ for outer_iter in range(job_data["num_iter"]):
             # print(episode["actions"].reshape((-1, 1)).shape)
             # print("------")
             actions.extend(action)
+
+            ac = np.zeros((len(episode["actions"]), 2))
+            for i in range(len(episode["actions"])):
+                ac[i][episode["actions"][i]] = 1
+            # episode["actions"] = ac
+
             all_actions_prob = np.exp(
                 agent.policy.log_likelihood(
                     torch.from_numpy(np.asarray(episode["obs"])),
-                    torch.from_numpy(np.asarray(episode["actions"].reshape((-1, 1)))),
-                ),
+                    torch.from_numpy(ac),
+                ).argmax(axis=1),
             )
 
             is_estimation = is_estimator.estimate(
