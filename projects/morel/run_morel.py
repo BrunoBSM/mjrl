@@ -273,7 +273,7 @@ def refresh_dataset(reader):
     r = batch["rewards"]
     pbar.update(r.size)  # update bar
 
-    while r.size < 1e6:
+    while r.size < 1e7:
         batch = reader.next().data
 
         # New shape should be (size, action_shape)]
